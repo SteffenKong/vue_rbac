@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 
 class Handler extends ExceptionHandler
 {
@@ -44,12 +45,17 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return false|string
      *
      * @throws \Exception
      */
     public function render($request, Exception $exception)
     {
+        // 判断异常对象是属于哪个异常类，然后进行对应的处理
+        if ($exception instanceof AuthorizeException) {
+            $json = $exception->handle($request,$exception);
+            return response()->json($json);
+        }
         return parent::render($request, $exception);
     }
 }

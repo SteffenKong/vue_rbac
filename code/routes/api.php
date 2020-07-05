@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['namespace' => 'admin','prefix' => 'admin'],function () {
+
+    // 登录接口
+    Route::post('login','LoginController@login');
+
+    // 获取公钥
+    Route::get('getPublicKey','LoginController@getPublicKey');
+
+
+    Route::group(['middleware' => 'checkLogin'],function () {
+
+        // 首页
+        Route::get('index','IndexController@index');
+    });
 });
