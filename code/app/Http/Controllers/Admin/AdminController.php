@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminAddRequest;
 use App\Http\Requests\Admin\AdminChangePasswordRequest;
 use App\Http\Requests\Admin\AdminChangeStatusRequest;
@@ -27,9 +26,15 @@ class AdminController extends BaseController
 
     public function __construct()
     {
+        parent::__construct();
         $this->adminService = Loader::service(AdminService::class);
     }
 
+
+    /**
+     * @param Request $request
+     * 获取惯例员列表
+     */
     public function getList(Request $request) {
         $where = [
             'account' => $request->get('account',''),
@@ -72,6 +77,19 @@ class AdminController extends BaseController
         $email = $request->get('email');
         $phone = $request->get('phone');
         $isCan = $request->get('isCan');
+
+        if ($this->adminService->checkAccountIsExistsByUpdate($adminId,$account)) {
+            JsonResponse::fail('账号已存在,请重新输入!');
+        }
+
+        if ($this->adminService->checkEmailIsExistsByUpdate($adminId,$email)) {
+            JsonResponse::fail('邮箱已存在,请重新输入!');
+        }
+
+        if ($this->adminService->checkPhoneIsExistsByUpdate($adminId,$phone)) {
+            JsonResponse::fail('手机号码已存在,请重新输入!');
+        }
+
         if (!$this->adminService->update($adminId,$account,$email,$phone,$isCan)) {
             JsonResponse::fail('编辑失败!');
         }
