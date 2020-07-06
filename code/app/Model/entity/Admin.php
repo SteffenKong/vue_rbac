@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\entity;
 
+use App\Model\AdminInfo;
 use Illuminate\Database\Eloquent\Model;
 
 /**
