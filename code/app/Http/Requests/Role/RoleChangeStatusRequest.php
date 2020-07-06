@@ -2,20 +2,16 @@
 
 namespace App\Http\Requests\Role;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Login\BaseRequest;
 
-class RoleChangeStatusRequest extends FormRequest
+
+/**
+ * Class RoleChangeStatusRequest
+ * @package App\Http\Requests\Role
+ * 角色状态修改校验器
+ */
+class RoleChangeStatusRequest extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +20,18 @@ class RoleChangeStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'required'
+        ];
+    }
+
+
+    /**
+     * @return array|string[]
+     */
+    public function messages()
+    {
+        return [
+            'id.required' => '请传入角色id'
         ];
     }
 }

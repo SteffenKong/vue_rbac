@@ -2,19 +2,17 @@
 
 namespace App\Http\Requests\Role;
 
+use App\Http\Requests\Login\BaseRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleDeleteRequest extends FormRequest
+
+/**
+ * Class RoleDeleteRequest
+ * @package App\Http\Requests\Role
+ * 角色删除校验器
+ */
+class RoleDeleteRequest extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,7 +22,17 @@ class RoleDeleteRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'required'
+        ];
+    }
+
+    /**
+     * @return array|string[]
+     */
+    public function messages()
+    {
+        return [
+            'id.required' => '请传入角色id'
         ];
     }
 }

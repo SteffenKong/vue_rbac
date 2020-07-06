@@ -2,19 +2,16 @@
 
 namespace App\Http\Requests\Role;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Login\BaseRequest;
 
-class RoleAddRequest extends FormRequest
+
+/**
+ * Class RoleAddRequest
+ * @package App\Http\Requests\Role
+ * 角色添加校验器
+ */
+class RoleAddRequest extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,7 +21,18 @@ class RoleAddRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'roleName' => 'required'
+        ];
+    }
+
+
+    /**
+     * @return array|string[]
+     */
+    public function messages()
+    {
+        return [
+            'roleName.required' => '请填写角色名称'
         ];
     }
 }
