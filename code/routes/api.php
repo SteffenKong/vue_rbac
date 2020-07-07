@@ -50,7 +50,7 @@ Route::group(['namespace' => 'admin','prefix' => 'admin'],function () {
         });
 
 
-        // 角色模块
+        // 权限模块
         Route::group(['prefix' => 'permission'],function () {
             Route::get('/getList','PermissionController@getList');
             Route::post('/create','PermissionController@create');
