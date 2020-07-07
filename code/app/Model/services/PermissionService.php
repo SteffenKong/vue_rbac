@@ -59,11 +59,10 @@ class PermissionService {
      * @param $slug
      * @param $pid
      * @param $isMenu
-     * @param $pidStr
      * @return mixed
      * 创建权限
      */
-    public function create($name,$path,$slug,$pid,$isMenu,$pidStr) {
+    public function create($name,$path,$slug,$pid,$isMenu) {
         return $this->permissionDao->create($name,$path,$slug,$pid,$isMenu,$pidStr);
     }
 
@@ -75,11 +74,10 @@ class PermissionService {
      * @param $slug
      * @param $pid
      * @param $isMenu
-     * @param $pidStr
      * @return mixed
      * 更新权限
      */
-    public function update($permissionId,$name,$path,$slug,$pid,$isMenu,$pidStr) {
+    public function update($permissionId,$name,$path,$slug,$pid,$isMenu) {
         return $this->permissionDao->update($permissionId,$name,$path,$slug,$pid,$isMenu,$pidStr);
     }
 
@@ -90,5 +88,35 @@ class PermissionService {
      */
     public function find($permissionId) {
         return $this->permissionData->find($permissionId);
+    }
+
+
+    /**
+     * @param $permissionId
+     * @param $name
+     * @return mixed
+     */
+    public function checkNameIsExistsByUpdate($permissionId,$name) {
+        return $this->permissionData->checkNameIsExistsByUpdate($permissionId,$name);
+    }
+
+
+    /**
+     * @param $permissionId
+     * @param $slug
+     * @return mixed
+     */
+    public function checkSlugIsExistsByUpdate($permissionId,$slug) {
+        return $this->permissionData->checkSlugIsExistsByUpdate($permissionId,$slug);
+    }
+
+
+    /**
+     * @param $permissionId
+     * @return mixed
+     * 删除权限
+     */
+    public function delete($permissionId) {
+        return $this->permissionDao->delete($permissionId);
     }
 }

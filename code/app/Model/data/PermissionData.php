@@ -35,4 +35,30 @@ class PermissionData {
     public function find($permissionId) {
         return Permission::where('id',$permissionId)->first();
     }
+
+
+    /**
+     * @param $permissionId
+     * @param $name
+     * @return mixed
+     * 检测权限名是否存在
+     */
+    public function checkNameIsExistsByUpdate($permissionId,$name) {
+        return Permission::where('id','!=',$permissionId)
+            ->where('name',$name)
+            ->exists();
+    }
+
+
+    /**
+     * @param $permissionId
+     * @param $slug
+     * @return mixed
+     * 检测前端标识是否存在
+     */
+    public function checkSlugIsExistsByUpdate($permissionId,$slug) {
+        return Permission::where('id','!=',$permissionId)
+            ->where('slug',$slug)
+            ->exists();
+    }
 }

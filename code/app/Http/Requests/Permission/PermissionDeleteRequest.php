@@ -1,21 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Permission;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Login\BaseRequest;
 
-class PermissionDeleteRequest extends FormRequest
+/**
+ * Class PermissionDeleteRequest
+ * @package App\Http\Requests\Permission
+ * 权限删除校验器
+ */
+class PermissionDeleteRequest extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +19,18 @@ class PermissionDeleteRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'required'
+        ];
+    }
+
+
+    /**
+     * @return array|string[]
+     */
+    public function messages()
+    {
+        return [
+            'id.required' => '请传入权限id'
         ];
     }
 }

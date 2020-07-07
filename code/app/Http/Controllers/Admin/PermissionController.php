@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\PermissionAddRequest;
-use App\Http\Requests\Admin\PermissionDeleteRequest;
-use App\Http\Requests\Admin\PermissionEditRequest;
+use App\Http\Requests\Permission\PermissionAddRequest;
+use App\Http\Requests\Permission\PermissionDeleteRequest;
+use App\Http\Requests\Permission\PermissionEditRequest;
 use App\Model\services\PermissionService;
 use Tools\JsonTools\JsonResponse;
 use Illuminate\Http\Request;
@@ -28,29 +28,97 @@ class PermissionController extends BaseController
     }
 
 
+    /**
+     * 权限列表
+     */
     public function getList() {
-
+        $data = $this->permissionService->getTreeByChildrenTree();
+        JsonResponse::item($data);
     }
 
 
+    /**
+     * @param PermissionAddRequest $request
+     * 录入权限
+     */
     public function create(PermissionAddRequest $request) {
+        $name = $request->get('name');
+        $slug = $request->get('slug');
+        $path = $request->get('path');
+        $isMenu = $request->get('isMenu');
+        $pid = $request->get('pid',0);
 
+        if (!$this->permissionService->create($name,$path,$slug,$pid,$isMenu)) {
+            JsonResponse::fail('录入权限失败!');
+        }
+        JsonResponse::success('录入成功');
     }
 
+
+    /**
+     * @param PermissionEditRequest $request
+     * 编辑权限
+     */
     public function update(PermissionEditRequest $request) {
+        $permissionId = $request->get('id');
+        $name = $request->get('name');
+        $slug = $request->get('slug');
+        $path = $request->get('path');
+        $isMenu = $request->get('isMenu');
+        $pid = $request->get('pid',0);
 
+        if ($this->permissionService->checkNameIsExistsByUpdate($permissionId,$name)) {
+            JsonResponse::fail('权限名已存在!');
+        }
+
+        if ($this->permissionService->checkSlugIsExistsByUpdate($permissionId,$slug)) {
+            JsonResponse::fail('前端标识已存在!');
+        }
+
+        if (!$this->permissionService->update($permissionId,$name,$path,$slug,$pid,$isMenu)) {
+            JsonResponse::fail('编辑失败!');
+        }
+
+        JsonResponse::success('编辑成功');
     }
 
+
+    /**
+     * @param PermissionDeleteRequest $request
+     * 删除权限
+     */
     public function delete(PermissionDeleteRequest $request) {
+        $permissionId = $request->get('id');
+        if (empty($permissionId)) {
+            JsonResponse::fail('请传入权限id');
+        }
 
+        if (!$this->permissionService->delete($permissionId)) {
+            JsonResponse::fail('删除失败!');
+        }
+
+        JsonResponse::success('删除成功');
     }
 
+
+    /**
+     * @param Request $request
+     * 权限详情
+     */
     public function detail(Request $request) {
         $permissionId = $request->get('id');
         if (empty($permissionId)) {
             JsonResponse::fail('请传入权限id!');
         }
+        $detail = $this->checkPermission($permissionId);
 
+        JsonResponse::item([
+            'name' => $detail->name,
+            'slug' => $detail->slug,
+            'path' => $detail->path,
+            'pid' => $detail->pid,
+            'isMenu' => $detail->is_menu
+        ]);
 
     }
 
@@ -65,7 +133,6 @@ class PermissionController extends BaseController
         if(!$permission) {
             JsonResponse::fail('权限不存在!');
         }
-
         return $permission;
     }
 }

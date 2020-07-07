@@ -62,4 +62,14 @@ class PermissionDao {
            'pid_str' => $pidStr
        ]);
    }
+
+
+    /**
+     * @param $permissionId
+     * @return mixed
+     * 删除权限
+     */
+   public function delete($permissionId) {
+       return Permission::where('id',$permissionId)->delete();
+   }
 }
