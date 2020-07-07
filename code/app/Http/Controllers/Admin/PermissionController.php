@@ -32,7 +32,7 @@ class PermissionController extends BaseController
      * 权限列表
      */
     public function getList() {
-        $data = $this->permissionService->getTreeByChildrenTree();
+        $data = $this->permissionService->getTree();
         JsonResponse::item($data);
     }
 
@@ -47,6 +47,10 @@ class PermissionController extends BaseController
         $path = $request->get('path');
         $isMenu = $request->get('isMenu');
         $pid = $request->get('pid',0);
+
+        if ($this->permissionService->checkNameIsExists($name)) {
+            JsonResponse::fail('权限名已存在!');
+        }
 
         if (!$this->permissionService->create($name,$path,$slug,$pid,$isMenu)) {
             JsonResponse::fail('录入权限失败!');
@@ -71,8 +75,11 @@ class PermissionController extends BaseController
             JsonResponse::fail('权限名已存在!');
         }
 
-        if ($this->permissionService->checkSlugIsExistsByUpdate($permissionId,$slug)) {
-            JsonResponse::fail('前端标识已存在!');
+
+        if (!empty($slug)) {
+            if ($this->permissionService->checkSlugIsExistsByUpdate($permissionId,$slug)) {
+                JsonResponse::fail('前端标识已存在!');
+            }
         }
 
         if (!$this->permissionService->update($permissionId,$name,$path,$slug,$pid,$isMenu)) {
@@ -134,5 +141,14 @@ class PermissionController extends BaseController
             JsonResponse::fail('权限不存在!');
         }
         return $permission;
+    }
+
+
+    /**
+     * 权限下拉选择
+     */
+    public function getPermissionSelect() {
+        $selectData = $this->permissionService->getSelectTree();
+        JsonResponse::item($selectData);
     }
 }

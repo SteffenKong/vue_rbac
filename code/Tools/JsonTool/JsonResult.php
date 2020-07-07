@@ -129,7 +129,7 @@ class JsonResult {
      * 获取返回码
      */
     public function getCode() {
-        return $this->message;
+        return $this->code;
     }
 
 

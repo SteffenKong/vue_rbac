@@ -9,7 +9,7 @@
 namespace App\Model\dao;
 
 
-use App\Admin\entity\Role;
+use App\Model\entity\Role;
 
 /**
  * Class RoleDao

@@ -9,7 +9,7 @@
 namespace App\Model\dao;
 
 
-use App\Admin\entity\Permission;
+use App\Model\entity\Permission;
 
 /**
  * Class PermissionDao
@@ -29,14 +29,13 @@ class PermissionDao {
      * @return mixed
      * 录入权限
      */
-   public function create($name,$path,$slug,$pid,$isMenu,$pidStr) {
+   public function create($name,$path,$slug,$pid,$isMenu) {
        return Permission::create([
            'name' => $name,
            'path' => $path,
            'slug' => $slug,
            'pid' => $pid,
            'is_menu' => $isMenu,
-           'pid_str' => $pidStr
        ]);
    }
 
@@ -52,14 +51,13 @@ class PermissionDao {
      * @return mixed
      * 更新权限
      */
-   public function update($permissionId,$name,$path,$slug,$pid,$isMenu,$pidStr) {
+   public function update($permissionId,$name,$path,$slug,$pid,$isMenu) {
        return Permission::where('id',$permissionId)->update([
            'name' => $name,
            'path' => $path,
            'slug' => $slug,
            'pid' => $pid,
            'is_menu' => $isMenu,
-           'pid_str' => $pidStr
        ]);
    }
 

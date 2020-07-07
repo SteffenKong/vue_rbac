@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Login\LoginRequest;
 use App\Model\services\AdminService;
 use Tools\Core\Loader;
@@ -14,18 +15,18 @@ use Tools\Jwt\JwtTool;
  * @package App\Http\Controllers\Admin
  * 登录控制器
  */
-class LoginController extends BaseController
+class LoginController extends Controller
 {
 
 
     /**
      * @param LoginRequest $request
+     * @throws \App\Exceptions\AuthorizeException
      * 登录接口
      */
     public function login(LoginRequest $request) {
         $account = $request->get('account');
         $password = $request->get('password');
-
         /* @var AdminService $adminService*/
         $adminService = Loader::service(AdminService::class);
         $admin = $adminService->login($account,$password);

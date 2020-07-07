@@ -21,3 +21,38 @@ if (!function_exists('encryptPassword')) {
         return md5(md5($password.$salt));
     }
 }
+
+
+
+if (!function_exists('getTreeHasChildren')) {
+
+    function getTreeHasChildren() {
+
+    }
+}
+
+
+if (!function_exists('toTree')) {
+
+    /**
+     * @param $data
+     * @param int $pid
+     * @param int $level
+     * @return array
+     * 将数据转化为树状排序
+     */
+    function toTree($data,$pid = 0,$level = 0) {
+        static $allData = [];
+        foreach ($data ?? [] as $one) {
+            if ($one['pid'] == $pid) {
+                $level++;
+                $one['level'] = $level;
+                $allData[] = $one;
+                return toTree($data,$one['id'],$level);
+            }
+        }
+        return $allData;
+    }
+}
+
+

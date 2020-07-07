@@ -9,7 +9,7 @@
 namespace App\Model\data;
 
 
-use App\Admin\entity\Permission;
+use App\Model\entity\Permission;
 
 /**
  * Class PermissionData
@@ -60,5 +60,14 @@ class PermissionData {
         return Permission::where('id','!=',$permissionId)
             ->where('slug',$slug)
             ->exists();
+    }
+
+
+    /**
+     * @param $permissionName
+     * @return mixed
+     */
+    public function checkNameIsExists($permissionName) {
+        return Permission::where('name',$permissionName)->exists();
     }
 }

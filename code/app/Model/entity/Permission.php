@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Admin\entity;
+namespace App\Model\entity;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +18,6 @@ class Permission extends Model
         'id',
         'name',
         'pid',
-        'pid_str',
         'path',
         'slug',
         'is_menu',

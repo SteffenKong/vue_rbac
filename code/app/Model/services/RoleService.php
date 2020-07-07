@@ -8,9 +8,9 @@
 
 namespace App\Model\services;
 
-use App\Admin\entity\Role;
 use App\Model\dao\RoleDao;
 use App\Model\data\RoleData;
+use App\Model\entity\Role;
 use Tools\Core\Loader;
 
 /**
@@ -45,7 +45,7 @@ class RoleService
     {
         $items = $this->roleData->getList($page, $pageSize, $where);
         $return = [];
-        foreach ($items->item() ?? [] as $role) {
+        foreach ($items->items() ?? [] as $role) {
             $return[] = [
                 'id' => $role->id,
                 'roleName' => $role->role_name,
@@ -112,6 +112,15 @@ class RoleService
     public function delete($roleId)
     {
         return $this->roleDao->delete($roleId);
+    }
+
+
+    /**
+     * @param $roleName
+     * @return mixed
+     */
+    public function checkRoleNameIsExists($roleName) {
+        return $this->roleData->checkNameIsExists($roleName);
     }
 
 

@@ -2,7 +2,7 @@
 
 namespace App\Model\entity;
 
-use App\Model\AdminInfo;
+use App\Model\entity\AdminInfo;
 use Illuminate\Database\Eloquent\Model;
 
 /**

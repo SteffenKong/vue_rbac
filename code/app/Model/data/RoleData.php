@@ -9,7 +9,7 @@
 namespace App\Model\data;
 
 
-use App\Admin\entity\Role;
+use App\Model\entity\Role;
 
 /**
  * Class RoleData
@@ -52,7 +52,16 @@ class RoleData {
      */
     public function checkNameIsExistsByUpdate($roleId,$name) {
         return Role::where('id','!=',$roleId)
-            ->where('name',$name)
+            ->where('role_name',$name)
             ->exists();
+    }
+
+
+    /**
+     * @param $roleName
+     * @return mixed
+     */
+    public function checkNameIsExists($roleName) {
+        return Role::where('role_name',$roleName)->exists();
     }
 }

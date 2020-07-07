@@ -9,7 +9,7 @@
 namespace App\Model\services;
 
 use App\Exceptions\AuthorizeException;
-use App\Model\AdminInfo;
+use App\Model\entity\AdminInfo;
 use App\Model\dao\AdminDao;
 use App\Model\data\AdminData;
 use App\Model\entity\Admin;
@@ -101,9 +101,9 @@ class AdminService {
             $return[] = [
                 'id' => $item->id,
                 'account' => $item->account,
-                'email' => $item->email,
+                'email' => optional($item->adminInfo)->email,
                 'status' => $item->status,
-                'phone' => $item->phone,
+                'phone' => optional($item->adminInfo)->phone,
                 'createdAt' => $item->created_at,
                 'updatedAt' => $item->updated_at
             ];
@@ -153,7 +153,7 @@ class AdminService {
      */
     public function changePassword($adminId,$password) {
         $rsa = new RSACrypt();
-        $rsa->setPrivkey(\config('rbac.jwt.secret'));
+        $rsa->setPrivkey(\config('rbac.privateKey'));
         $password = $rsa->decryptByPrivateKey($password);
         if (!$password) {
             throw new AuthorizeException('密码解密失败!');
@@ -225,7 +225,7 @@ class AdminService {
         try {
             DB::beginTransaction();
             $rsa = new RSACrypt();
-            $rsa->setPrivkey(\config('rbac.jwt.secret'));
+            $rsa->setPrivkey(\config('rbac.privateKey'));
             $password = $rsa->decryptByPrivateKey($password);
             if (!$password) {
                 throw new AuthorizeException('密码解密失败!');
@@ -238,6 +238,7 @@ class AdminService {
                 $result = true;
             }
         }catch (\Exception $e) {
+            dd($e->getMessage());
             $result = false;
         }
 
@@ -270,7 +271,7 @@ class AdminService {
      */
     public function checkEmailIsExistsByUpdate($adminId,$email) {
         return AdminInfo::where('email',$email)
-            ->where('$adminId','<>',$adminId)
+            ->where('admin_id','<>',$adminId)
             ->exists();
     }
 
@@ -282,7 +283,7 @@ class AdminService {
      */
     public function checkPhoneIsExistsByUpdate($adminId,$phone) {
         return AdminInfo::where('phone',$phone)
-            ->where('$adminId','<>',$adminId)
+            ->where('admin_id','<>',$adminId)
             ->exists();
     }
 }

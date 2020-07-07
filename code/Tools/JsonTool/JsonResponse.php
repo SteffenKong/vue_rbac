@@ -71,6 +71,7 @@ class JsonResponse {
         $result->setPage($page);
         $result->setPageSize($pageSize);
         $result->setExtra($extra);
+        $result->output();
     }
 
 

@@ -19,26 +19,21 @@ class BaseController extends Controller
 
     public function __construct()
     {
-        // 实例化请求对象
-        /* @var Request $request */
-        $request = Request::instance();
-
         // 传入请求对象
-        $this->setPageParam($request);
+        $this->setPageParam();
     }
 
 
     /**
-     * @param Request $request
      * 设置分页参数
      */
-    private function setPageParam(Request $request) {
-        $page = $request->get('page');
+    private function setPageParam() {
+        $page = request('page');
         if ($page <= 0) {
             $page = 1;
         }
 
-        $pageSize = $request->get('pageSize');
+        $pageSize = request('pageSize');
 
         if ($pageSize <= 0) {
             $pageSize = 10;

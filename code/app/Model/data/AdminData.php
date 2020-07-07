@@ -43,7 +43,7 @@ class AdminData {
      * 获取管理员列表
      */
     public function getList($page,$pageSize,$where = []) {
-        return Admin::when(!isset($where['account']) && !empty($where['account']),function ($query) use ($where) {
+        return Admin::when(isset($where['account']) && !empty($where['account']),function ($query) use ($where) {
             return $query->where('account','like',"%{$where['account']}%");
         })->when(isset($where['email']) && !empty($where['email']),function ($query) use ($where) {
             return $query->where('email','like',"%{$where['email']}%");

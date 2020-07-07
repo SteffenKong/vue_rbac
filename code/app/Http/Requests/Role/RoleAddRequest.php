@@ -32,7 +32,7 @@ class RoleAddRequest extends BaseRequest
     public function messages()
     {
         return [
-            'roleName.required' => '请填写角色名称'
+            'roleName.required' => '请填写角色名称',
         ];
     }
 }

@@ -8,7 +8,7 @@
 
 namespace App\Model\dao;
 
-use App\Model\AdminInfo;
+use App\Model\entity\AdminInfo;
 use App\Model\entity\Admin;
 use Hash;
 use Tools\Rsa\RSACrypt;

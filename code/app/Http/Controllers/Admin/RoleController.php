@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Role\RoleAddRequest;
 use App\Http\Requests\Role\RoleChangeStatusRequest;
 use App\Http\Requests\Role\RoleDeleteRequest;
+use Illuminate\Http\Request;
 use App\Http\Requests\Role\RoleEditRequest;
 use App\Model\services\RoleService;
-use Request;
 use Tools\Core\Loader;
 use Tools\JsonTools\JsonResponse;
 
@@ -49,6 +49,11 @@ class RoleController extends BaseController
      */
     public function create(RoleAddRequest $request) {
         $roleName = $request->get('roleName');
+
+        if ($this->roleService->checkRoleNameIsExists($roleName)) {
+            JsonResponse::fail('角色已存在!');
+        }
+
         if (!$this->roleService->create($roleName)) {
             JsonResponse::fail('录入角色失败!');
         }

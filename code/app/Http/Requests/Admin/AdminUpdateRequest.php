@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Login\BaseRequest;
 
-class AdminUpdateRequest extends FormRequest
+class AdminUpdateRequest extends BaseRequest
 {
 
 

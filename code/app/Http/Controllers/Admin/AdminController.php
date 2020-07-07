@@ -143,6 +143,29 @@ class AdminController extends BaseController
 
 
     /**
+     * @param Request $request
+     * 详情
+     */
+    public function detail(Request $request) {
+        $adminId = $request->get('id');
+        if (empty($adminId)) {
+            JsonResponse::fail('请传入管理员id');
+        }
+        $admin = $this->checkAdminExists($adminId);
+
+        JsonResponse::item([
+            'id' => $admin->id,
+            'account' => $admin->account,
+            'status' => $admin->status,
+            'email' => optional($admin->adminInfo)->email,
+            'phone' => optional($admin->adminInfo)->phone,
+            'isCan' => optional($admin->adminInfo)->is_can
+        ]);
+    }
+
+
+
+    /**
      * @param $adminId
      * @return mixed
      * 校验管理员是否存在
